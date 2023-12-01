@@ -5,10 +5,10 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Root from "./routes/root";
 import Home from "./routes/Home";
+import Services from "./routes/Services";
+import Contact from "./routes/Contact";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -16,6 +16,14 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Home />,
+    },
+    {
+        path: "/services",
+        element: <Services />,
+    },
+    {
+        path: "/contact",
+        element: <Contact />,
     },
 ]);
 

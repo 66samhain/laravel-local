@@ -1,4 +1,3 @@
-import background from '../img/home-bg.jpg';
 import '../App.css';
 import Navbar from "../partials/Navbar";
 import Footer from "../partials/Footer";
