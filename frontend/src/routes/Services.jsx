@@ -34,8 +34,6 @@ export default function Home({ page }) {
 
         formData.append('content', content);
 
-        console.log(formData);
-
         // TODO replace hardcoded URL
         axios.post(`http://localhost:8000/api/pages/${page.id}`, formData)
             .then((response) => {
@@ -45,8 +43,6 @@ export default function Home({ page }) {
     }
 
     function handleFileChange(e) {
-        console.log(e.target.files[0]);
-
         setImage(e.target.files[0]);
         setImageUrl(URL.createObjectURL(e.target.files[0]));
     }

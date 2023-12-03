@@ -1,5 +1,5 @@
 import '../App.css';
-import React, {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 export default function Home({ page }) {
@@ -33,8 +33,6 @@ export default function Home({ page }) {
         }
 
         formData.append('content', content);
-
-        console.log(formData);
 
         // TODO replace hardcoded URL
         axios.post(`http://localhost:8000/api/pages/${page.id}`, formData)
