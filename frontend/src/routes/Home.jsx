@@ -1,6 +1,7 @@
 import '../App.css';
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useStore } from "../store/store";
 
 export default function Home({ page }) {
     let [isEditing, setIsEditing] = useState(false);
@@ -8,6 +9,7 @@ export default function Home({ page }) {
     let [image, setImage] = useState(null);
     let [imageUrl, setImageUrl] = useState(null);
 
+    const user = useStore((state) => state.user);
     const editRef = useRef();
 
     useEffect(() => {
@@ -57,19 +59,19 @@ export default function Home({ page }) {
                         <div className="col-md-10 col-lg-8 col-xl-7"
                              ref={editRef}>
                             <div className="page-container">
-                                { !isEditing ?
+                                { !isEditing && user.isAdmin ?
                                     <button className="btn btn-primary text-uppercase"
                                             onClick={ () => setIsEditing(true) }>Toggle edit mode</button>
                                     :
                                     null
                                 }
                                 <div className="content-container">
-                                    { isEditing ?
+                                    { isEditing && user.isAdmin  ?
                                         <>
                                             <div className="edit-container">
                                                 <textarea id="w3review" name="w3review"
                                                           rows="10" cols="30"
-                                                          defaultValue={ content } onChange={updateContent}></textarea>
+                                                          defaultValue={ content } onChange={ updateContent }></textarea>
 
                                                 { page.image || imageUrl ?
                                                     <img src={ imageUrl ? imageUrl : page.image } alt="image" />

@@ -1,4 +1,3 @@
-import axios from "axios";
 import './App.css';
 import Home from "./routes/Home";
 import Contact from "./routes/Contact";
@@ -13,21 +12,18 @@ import { useState,useEffect } from "react";
 import { useStore } from "./store/store";
 
 function App() {
-    const [pages, setPages] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
+    const isLoading = useStore((state) => state.isLoading);
     const user = useStore((state) => state.user);
+    const pages = useStore((state) => state.pages);
+    const getPages = useStore((store) => store.getPages);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/pages').then((response) => {
-            setPages(response.data.data);
-            setIsLoading(false);
-        });
+        getPages().then(() => {});
     }, []);
 
     return (
         <>
-            {isLoading ? <div></div> :
+            { isLoading ? <div></div> :
                 <>
                     <Router>
                         <div className="App">
@@ -37,11 +33,12 @@ function App() {
 
                             <Routes>
                                 <Route path="/" element={ <Home page={ pages[0] } /> } />
-                                <Route path="/services" element={ <Services page={ pages[1] } /> } />
-                                <Route path="/contact" element={ <Contact page={ pages[2] } /> } />
 
                                 { user?.id ?
-                                    null
+                                    <>
+                                        <Route path="/services" element={ <Services page={ pages[1] } /> } />
+                                        <Route path="/contact" element={ <Contact page={ pages[2] } /> } />
+                                    </>
                                     :
                                     <>
                                         <Route path="/login" element={ <Login /> } />

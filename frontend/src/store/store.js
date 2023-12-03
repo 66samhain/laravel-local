@@ -2,13 +2,24 @@ import { create } from 'zustand'
 import axios from "axios";
 
 export const useStore = create((set, get) => ({
+    isLoading: true,
+    pages: [],
     user: {
         id: null,
         name: null,
         email: null,
         token: null,
+        isAdmin: null,
     },
     bears: 0,
+    setIsLoading: (isLoading) => set(() => ({ isLoading: isLoading })),
+    setPages: (pages) => set(() => ({ pages: pages })),
+    getPages: async () => {
+        axios.get('http://localhost:8000/api/pages').then((response) => {
+            get().setPages(response.data.data);
+            get().setIsLoading(false);
+        });
+    },
     setUser: (user) => set(() => ({ user: user })),
     doLogin: async (user) => {
         axios.post(`http://localhost:8000/api/login`, user)
@@ -31,7 +42,7 @@ export const useStore = create((set, get) => ({
                         id: null,
                         name: null,
                         email: null,
-                        token: null,
+                        isAdmin: null,
                     });
                 })
                 .catch(() => {
