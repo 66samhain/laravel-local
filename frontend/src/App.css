@@ -95,6 +95,34 @@
     }
 }
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px 0;
+}
+
+.content-container p {
+    padding: 0;
+    margin: 0;
+}
+
+.content-container img {
+    max-width: 100%;
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+}
+
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
