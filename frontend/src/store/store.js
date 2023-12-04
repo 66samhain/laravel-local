@@ -20,6 +20,12 @@ export const useStore = create((set, get) => ({
             get().setIsLoading(false);
         });
     },
+    updatePage: async (id, formData) => {
+        axios.post(`http://localhost:8000/api/pages/${id}`, formData)
+            .then((response) => {
+                get().setPages(response.data.data);
+            });
+    },
     setUser: (user) => set(() => ({ user: user })),
     doLogin: async (user) => {
         axios.post(`http://localhost:8000/api/login`, user)

@@ -36,6 +36,6 @@ class PageController extends Controller
 
         $page->save();
 
-        return new PageResource($page);
+        return PageResource::collection(Page::all());
     }
 }

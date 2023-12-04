@@ -1,9 +1,8 @@
 import '../App.css';
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import {useStore} from "../store/store";
+import { useStore } from "../store/store";
 
-export default function Home({ page }) {
+export default function Page({ page }) {
     let [isEditing, setIsEditing] = useState(false);
     let [content, setContent] = useState(page.content);
     let [image, setImage] = useState(null);
@@ -11,6 +10,8 @@ export default function Home({ page }) {
 
     const user = useStore((state) => state.user);
     const editRef = useRef();
+
+    const updatePage = useStore((store) => store.updatePage);
 
     useEffect(() => {
         window.onclick = (event) => {
@@ -36,15 +37,14 @@ export default function Home({ page }) {
 
         formData.append('content', content);
 
-        // TODO replace hardcoded URL
-        axios.post(`http://localhost:8000/api/pages/${page.id}`, formData)
-            .then((response) => {
-                page = response.data.data;
-                // TODO update pages in parent component after changing something
-            });
+        updatePage(page.id, formData).then(() => {
+            setIsEditing(false);
+        });
     }
 
     function handleFileChange(e) {
+        console.log(e.target.files[0]);
+
         setImage(e.target.files[0]);
         setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
