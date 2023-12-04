@@ -1,8 +1,8 @@
-import '../App.css';
 import { useEffect, useRef, useState } from "react";
-import { useStore } from "../store/store";
 import { toast, ToastContainer } from "react-toastify";
+import { useStore } from "../store/store";
 import 'react-toastify/dist/ReactToastify.css';
+import '../App.css';
 
 export default function Page({ page }) {
     let [isEditing, setIsEditing] = useState(false);

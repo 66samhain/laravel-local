@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import '../../App.css';
+import { toast, ToastContainer } from "react-toastify";
 import { useStore } from "../../store/store";
+import 'react-toastify/dist/ReactToastify.css';
+import '../../App.css';
 
 export default function Login() {
     const [email, setEmail] = useState(null);
@@ -10,11 +12,14 @@ export default function Login() {
     const doLogin = useStore((store) => store.doLogin);
     const navigate = useNavigate();
 
+    const notifySuccess = () => toast.success('Login successful!');
     function login() {
         const userData = {
             email: email,
             password: password
         }
+
+        notifySuccess();
 
         doLogin(userData).then(() => {
             navigate('/');
@@ -27,6 +32,8 @@ export default function Login() {
                 <div className="container px-4 px-lg-5">
                     <div className="row gx-4 gx-lg-5 justify-content-center">
                         <div className="col-md-10 col-lg-8 col-xl-7">
+                            <ToastContainer position="top-center" />
+
                             <p>Please fill out your credentials.</p>
                             <div className="my-5">
                                 <div className="form-floating">
