@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
             <nav className="navbar navbar-expand-lg navbar-light" id="mainNav">
                 <div className="container px-4 px-lg-5">
-                    <Link to={'/'} className="navbar-brand">Start Bootstrap</Link>
+                    <Link to={'/'} className="navbar-brand">ITech</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         Menu
                         <i className="fas fa-bars"></i>
