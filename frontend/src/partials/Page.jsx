@@ -10,10 +10,11 @@ export default function Page({ page }) {
     let [image, setImage] = useState(null);
     let [imageUrl, setImageUrl] = useState(null);
 
+    const pages = useStore((state) => state.pages);
     const user = useStore((state) => state.user);
-    const editRef = useRef();
-
     const updatePage = useStore((store) => store.updatePage);
+
+    const editRef = useRef();
 
     const notifySuccess = () => toast.success('Updated successfully!');
 
@@ -42,14 +43,16 @@ export default function Page({ page }) {
         formData.append('content', content);
 
         updatePage(page.id, formData).then(() => {
+            const index = pages.findIndex(storePage => storePage.id === page.id);
+            page = pages[index];
             setIsEditing(false)
+            setImage(null);
+            setImageUrl(null);
             notifySuccess();
         });
     }
 
     function handleFileChange(e) {
-        console.log(e.target.files[0]);
-
         setImage(e.target.files[0]);
         setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
@@ -63,6 +66,13 @@ export default function Page({ page }) {
                              ref={editRef}>
                             <div className="page-container">
                                 <ToastContainer position="top-center" />
+
+                                { page.heading ?
+                                    <h2 className="post-title" style={{ marginBottom: '30px' }}>{ page.heading }</h2>
+                                    :
+                                    null
+                                }
+
                                 { !isEditing && user.isAdmin ?
                                     <button className="btn btn-primary text-uppercase"
                                             onClick={ () => setIsEditing(true) }>Toggle edit mode</button>
@@ -75,10 +85,11 @@ export default function Page({ page }) {
                                             <div className="edit-container">
                                                 <textarea id="w3review" name="w3review"
                                                           rows="10" cols="30"
-                                                          defaultValue={ content } onChange={ updateContent }></textarea>
+                                                          style={{ marginBottom: '30px' }}
+                                                          defaultValue={ page.content } onChange={ updateContent }></textarea>
 
                                                 { page.image || imageUrl ?
-                                                    <img src={ imageUrl ? imageUrl : page.image } alt="image" />
+                                                    <img src={ imageUrl ? imageUrl : page.image } alt="image" style={{ marginBottom: '30px' }} />
                                                     :
                                                     null
                                                 }
@@ -98,7 +109,7 @@ export default function Page({ page }) {
                                         </>
                                         :
                                         <>
-                                            <p>{ content }</p>
+                                            <p style={{ alignSelf: 'flex-start' }}>{ page.content }</p>
 
                                             { page.image || imageUrl ?
                                                 <img src={ imageUrl ? imageUrl : page.image } alt="image" />
