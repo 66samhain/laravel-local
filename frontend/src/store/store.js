@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import axios from "axios";
 
+const apiUrl = 'http://localhost:8000/api/';
 export const useStore = create((set, get) => ({
     isLoading: true,
     pages: [],
@@ -15,20 +16,20 @@ export const useStore = create((set, get) => ({
     setIsLoading: (isLoading) => set(() => ({ isLoading: isLoading })),
     setPages: (pages) => set(() => ({ pages: pages })),
     getPages: async () => {
-        axios.get('http://localhost:8000/api/pages').then((response) => {
+        axios.get(apiUrl + 'pages').then((response) => {
             get().setPages(response.data.data);
             get().setIsLoading(false);
         });
     },
     updatePage: async (id, formData) => {
-        axios.post(`http://localhost:8000/api/pages/${id}`, formData)
+        axios.post(apiUrl + `pages/${id}`, formData)
             .then((response) => {
                 get().setPages(response.data.data);
             });
     },
     setUser: (user) => set(() => ({ user: user })),
     doLogin: async (user) => {
-        axios.post(`http://localhost:8000/api/login`, user)
+        axios.post(apiUrl + 'login', user)
             .then((response) => {
                 get().setUser(response.data.data)
             })
@@ -42,7 +43,7 @@ export const useStore = create((set, get) => ({
                 headers: { Authorization: `Bearer ${get().user.token}` }
             };
 
-            axios.post(`http://localhost:8000/api/logout`, {}, config)
+            axios.post(apiUrl + 'logout', {}, config)
                 .then((response) => {
                     get().setUser({
                         id: null,
@@ -57,7 +58,7 @@ export const useStore = create((set, get) => ({
         }
     },
     doRegister: async (user) => {
-        axios.post(`http://localhost:8000/api/register`, user)
+        axios.post(apiUrl + 'register', user)
             .then((response) => {
                 get().setUser(response.data.data)
             })

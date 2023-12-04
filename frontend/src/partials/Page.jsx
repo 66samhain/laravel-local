@@ -1,6 +1,8 @@
 import '../App.css';
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "../store/store";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Page({ page }) {
     let [isEditing, setIsEditing] = useState(false);
@@ -12,6 +14,8 @@ export default function Page({ page }) {
     const editRef = useRef();
 
     const updatePage = useStore((store) => store.updatePage);
+
+    const notifySuccess = () => toast.success('Updated successfully!');
 
     useEffect(() => {
         window.onclick = (event) => {
@@ -38,7 +42,8 @@ export default function Page({ page }) {
         formData.append('content', content);
 
         updatePage(page.id, formData).then(() => {
-            setIsEditing(false);
+            setIsEditing(false)
+            notifySuccess();
         });
     }
 
@@ -57,6 +62,7 @@ export default function Page({ page }) {
                         <div className="col-md-10 col-lg-8 col-xl-7"
                              ref={editRef}>
                             <div className="page-container">
+                                <ToastContainer position="top-center" />
                                 { !isEditing && user.isAdmin ?
                                     <button className="btn btn-primary text-uppercase"
                                             onClick={ () => setIsEditing(true) }>Toggle edit mode</button>
@@ -92,7 +98,7 @@ export default function Page({ page }) {
                                         </>
                                         :
                                         <>
-                                            <p>{ page.content }</p>
+                                            <p>{ content }</p>
 
                                             { page.image || imageUrl ?
                                                 <img src={ imageUrl ? imageUrl : page.image } alt="image" />
